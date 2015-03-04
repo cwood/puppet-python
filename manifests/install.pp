@@ -53,7 +53,8 @@ class python::install {
     pip: {
       package { 'virtualenv': ensure => latest, provider => pip }
       package { 'pip': ensure => latest, provider => pip }
-      package { "python==${python::version}": ensure => latest, provider => pip }
+      package { $pythondev: ensure => $dev_ensure }
+      package { $python: ensure => present }
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
