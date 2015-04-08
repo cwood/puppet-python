@@ -51,18 +51,17 @@ class python::install {
   # Install latest from pip if pip is the provider
   case $python::provider {
     pip: {
-      package { 'virtualenv': ensure => latest, provider => pip }
-      package { 'pip': ensure => latest, provider => pip }
-      package { $pythondev: ensure => $dev_ensure }
-      package { $python: ensure => present }
+      package { 'virtualenv': ensure => present, provider => pip }
+      package { 'pip': ensure => present, provider => pip }
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
       package { $pip: ensure => $pip_ensure }
-      package { $pythondev: ensure => $dev_ensure }
-      package { $python: ensure => present }
     }
   }
+
+  package { $pythondev: ensure => $dev_ensure }
+  package { $python: ensure => present }
 
   if $python::manage_gunicorn {
     $gunicorn_ensure = $python::gunicorn ? {
