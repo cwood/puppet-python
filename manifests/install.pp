@@ -49,15 +49,14 @@ class python::install {
   }
 
   # Install latest from pip if pip is the provider
-  case $python::provider {
-    pip: {
-      package { 'virtualenv': ensure => present, provider => pip }
-      package { 'pip': ensure => present, provider => pip }
-    }
-    default: {
-      package { 'python-virtualenv': ensure => $venv_ensure }
-      package { $pip: ensure => $pip_ensure }
-    }
+  package { $pip: ensure         => $pip_ensure }->
+  package { 'pip': ensure        => present, provider => pip }->
+  package { 'virtualenv': ensure => present, provider => pip }
+
+  file { '/bin/python-pip':
+    target  => '/bin/pip',
+    ensure  => link,
+    require => Package[$pip]
   }
 
   package { $pythondev: ensure => $dev_ensure }
