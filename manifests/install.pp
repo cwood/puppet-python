@@ -53,7 +53,7 @@ class python::install {
   package { 'pip': ensure        => present, provider => pip }->
   package { 'virtualenv': ensure => present, provider => pip }
 
-  file { '/bin/python-pip':
+  file { '/bin/pip-python':
     target  => '/bin/pip',
     ensure  => link,
     require => Package[$pip]
